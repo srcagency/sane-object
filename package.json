@@ -1,0 +1,24 @@
+{
+	"name": "sane-object",
+	"version": "0.0.1",
+	"description": "Validates an object against a list of parameters (keys, depth)",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:srcagency/sane-object.git"
+	},
+	"scripts": {
+		"test": "node test.js"
+	},
+	"author": {
+		"name": "René T. Nielsen",
+		"email": "rene@src.agency"
+	},
+	"contributors": [{
+  		"name": "Thomas Jensen",
+  		"email": "thomas@src.agency"
+	}],
+  	"license": "MIT",
+  	"devDependencies": {
+  		"tape": "*"
+  	}
+}
