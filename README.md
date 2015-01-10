@@ -3,6 +3,7 @@
 Validates an object against a list of parameters:
 - keys: max number of total keys in object (and nested objects)
 - depth: max depth in the object
+- keyLength: max number of characters in a key (or nested object keys)
 
 ## Installation
 
@@ -37,9 +38,10 @@ var company = {
 	}
 };
 
-sane(company, { keys: 12, depth: 4 }); // true
-sane(company, { keys: 4, depth: 4 }); // false
-sane(company, { keys: 12, depth: 3 }); // false
+sane(company, { keys: 12, depth: 4, keyLength: 8 }); // true
+sane(company, { keys: 4, depth: 4, keyLength: 8 }); // false
+sane(company, { keys: 12, depth: 3, keyLength: 8 }); // false
+sane(company, { keys: 12, depth: 4, keyLength: 7 }); // false
 
 ```
 

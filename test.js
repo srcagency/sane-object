@@ -47,16 +47,28 @@ test('sane-object', function( t ){
 		t.end();
 	});
 
-	t.test('depth and keys', function( t ){
-		t.ok(sane({ a: { aa: { aaa: '' } } }, { keys: 3, depth: 2 }));
-		t.notOk(sane({ a: { aa: { aaa: '' } } }, { keys: 3, depth: 1 }));
-		t.notOk(sane({ a: { aa: { aaa: '' } } }, { keys: 2, depth: 2 }));
-		t.notOk(sane({ a: { aa: { aaa: '' } } }, { keys: 2, depth: 1 }));
+	t.test('keyLength', function( t ){
+		t.ok(sane({ a: { aa: { aaa: '' } } }, { keyLength: 3 }));
+		t.notOk(sane({ a: { aa: { aaaa: '' } } }, { keyLength: 3 }));
 
-		t.ok(sane([[['']]], { keys: 3, depth: 2 }));
-		t.notOk(sane([[['']]], { keys: 3, depth: 1 }));
-		t.notOk(sane([[['']]], { keys: 2, depth: 2 }));
-		t.notOk(sane([[['']]], { keys: 2, depth: 1 }));
+		t.ok(sane([[['']]], { keyLength: 1 }));
+		t.notOk(sane([[['']]], { keyLength: 0 }));
+
+		t.end();
+	});
+
+	t.test('depth, keyLength and keys', function( t ){
+		t.ok(sane({ a: { aa: { aaa: '' } } }, { keys: 3, depth: 2, keyLength: 3 }));
+		t.notOk(sane({ a: { aa: { aaa: '' } } }, { keys: 3, depth: 1, keyLength: 3 }));
+		t.notOk(sane({ a: { aa: { aaa: '' } } }, { keys: 2, depth: 2, keyLength: 3 }));
+		t.notOk(sane({ a: { aa: { aaa: '' } } }, { keys: 3, depth: 2, keyLength: 2 }));
+		t.notOk(sane({ a: { aa: { aaa: '' } } }, { keys: 2, depth: 1, keyLength: 2 }));
+
+		t.ok(sane([[['']]], { keys: 3, depth: 2, keyLength: 1 }));
+		t.notOk(sane([[['']]], { keys: 3, depth: 1, keyLength: 1 }));
+		t.notOk(sane([[['']]], { keys: 2, depth: 2, keyLength: 1 }));
+		t.notOk(sane([[['']]], { keys: 3, depth: 2, keyLength: 0 }));
+		t.notOk(sane([[['']]], { keys: 2, depth: 1, keyLength: 0 }));
 
 		t.end();
 	});

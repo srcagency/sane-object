@@ -7,6 +7,7 @@ function sane(obj, params){
 	var rounds = 0;
 	var counts = {
 		jobs: jobs.length,
+		keyLength: 0,
 	};
 
 	for (var i = 0, j = 1; i < counts.jobs; i++) {
@@ -17,7 +18,7 @@ function sane(obj, params){
 
 		work(jobs, jobs[i], counts);
 
-		if (insane(params, counts.jobs, rounds))
+		if (insane(params, counts, rounds))
 			return false;
 	}
 
@@ -31,17 +32,23 @@ function work( jobs, subject, counts ){
 		for (var j = k.length - 1; j >= 0; j--) {
 			jobs.push(subject[k[j]]);
 			counts.jobs++;
+
+			if (counts.keyLength < k[j].length)
+				counts.keyLength = k[j].length;
 		};
 	}
 }
 
-function insane( params, jobs, rounds ){
+function insane( params, counts, rounds ){
+	if (params.keyLength !== undefined && params.keyLength < counts.keyLength)
+		return true;
+
 	var depth = rounds - 1; // the bottom layer
 
 	if (params.depth !== undefined && params.depth < depth)
 		return true;
 
-	var keys = jobs - 1; // the first job
+	var keys = counts.jobs - 1; // the first job
 
 	if (params.keys !== undefined && params.keys < keys)
 		return true;
