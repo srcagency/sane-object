@@ -24,7 +24,7 @@ var company = {
 			},
 			address: [
 				{
-					home: '661 Congress Street - Wanship - Northern Mariana Islands 717',
+					home: '661 Congress Street',
 				}
 			]
 		}
@@ -32,7 +32,7 @@ var company = {
 	company: {
 		name: 'SOPRANO',
 		address: {
-			office: '754 Furman Street - Sehili - Oregon 319',
+			office: '754 Furman Street',
 		}
 	}
 };
