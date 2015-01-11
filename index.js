@@ -8,7 +8,15 @@ function sane(obj, params){
 	var counts = {
 		jobs: jobs.length,
 		keyLength: 0,
+		types: {
+			_number: false,
+			_string: false,
+			_boolean: false,
+			_null: false,
+			_undefined: false,
+		},
 	};
+	var keys = Object.keys(counts.types);
 
 	for (var i = 0, j = 1; i < counts.jobs; i++) {
 		if (i === j) {
@@ -18,7 +26,7 @@ function sane(obj, params){
 
 		work(jobs, jobs[i], counts);
 
-		if (insane(params, counts, rounds))
+		if (insane(params, counts, rounds, keys))
 			return false;
 	}
 
@@ -26,7 +34,7 @@ function sane(obj, params){
 }
 
 function work( jobs, subject, counts ){
-	if (typeof subject === 'object') {
+	if (typeof subject === 'object' && subject) {
 		var k = Object.keys(subject);
 
 		for (var j = k.length - 1; j >= 0; j--) {
@@ -37,9 +45,20 @@ function work( jobs, subject, counts ){
 				counts.keyLength = k[j].length;
 		};
 	}
+
+	if (subject === null)
+		counts.types._null = true;
+	else
+		counts.types['_' + typeof subject] = true;
 }
 
-function insane( params, counts, rounds ){
+function insane( params, counts, rounds, keys ){
+	if (params.types !== undefined)
+		for (var i = 0; i < keys.length; i++) {
+			if (params.types.indexOf(keys[i].substr(1)) === -1 && counts.types[keys[i]])
+				return true;
+		};
+
 	if (params.keyLength !== undefined && params.keyLength < counts.keyLength)
 		return true;
 

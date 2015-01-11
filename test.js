@@ -57,18 +57,34 @@ test('sane-object', function( t ){
 		t.end();
 	});
 
-	t.test('depth, keyLength and keys', function( t ){
-		t.ok(sane({ a: { aa: { aaa: '' } } }, { keys: 3, depth: 2, keyLength: 3 }));
-		t.notOk(sane({ a: { aa: { aaa: '' } } }, { keys: 3, depth: 1, keyLength: 3 }));
-		t.notOk(sane({ a: { aa: { aaa: '' } } }, { keys: 2, depth: 2, keyLength: 3 }));
-		t.notOk(sane({ a: { aa: { aaa: '' } } }, { keys: 3, depth: 2, keyLength: 2 }));
-		t.notOk(sane({ a: { aa: { aaa: '' } } }, { keys: 2, depth: 1, keyLength: 2 }));
+	t.test('types', function( t ){
+		t.ok(sane({ a: 1, b: '', c: true, d: null, e: undefined  }, { types: ['number', 'string', 'boolean', 'null', 'undefined'] }));
+		t.notOk(sane({ a: 1, b: '', c: true, d: null, e: undefined  }, { types: ['number', 'string', 'boolean', 'null'] }));
 
-		t.ok(sane([[['']]], { keys: 3, depth: 2, keyLength: 1 }));
-		t.notOk(sane([[['']]], { keys: 3, depth: 1, keyLength: 1 }));
-		t.notOk(sane([[['']]], { keys: 2, depth: 2, keyLength: 1 }));
-		t.notOk(sane([[['']]], { keys: 3, depth: 2, keyLength: 0 }));
-		t.notOk(sane([[['']]], { keys: 2, depth: 1, keyLength: 0 }));
+		t.ok(sane([1, '', true, null, undefined], { types: ['number', 'string', 'boolean', 'null', 'undefined'] }));
+		t.notOk(sane([1, '', true, null, undefined], { types: ['number', 'string', 'boolean', 'null'] }));
+
+		t.end();
+	});
+
+	t.test('depth, keyLength, keys and types', function( t ){
+		var foo = { a: { aa: { aaa: '' } }, b: 1, c: true, d: null, e: undefined };
+
+		t.ok(sane(foo, { keys: 7, depth: 2, keyLength: 3, types: ['number', 'string', 'boolean', 'null', 'undefined'] }));
+		t.notOk(sane(foo, { keys: 7, depth: 1, keyLength: 3, types: ['number', 'string', 'boolean', 'null', 'undefined'] }));
+		t.notOk(sane(foo, { keys: 6, depth: 2, keyLength: 3, types: ['number', 'string', 'boolean', 'null', 'undefined'] }));
+		t.notOk(sane(foo, { keys: 7, depth: 2, keyLength: 2, types: ['number', 'string', 'boolean', 'null', 'undefined'] }));
+		t.notOk(sane(foo, { keys: 7, depth: 2, keyLength: 3, types: ['number', 'string', 'boolean', 'null'] }));
+		t.notOk(sane(foo, { keys: 6, depth: 1, keyLength: 2, types: ['number', 'string', 'boolean', 'null'] }));
+
+		foo = [[['']], 1, true, null, undefined];
+
+		t.ok(sane(foo, { keys: 7, depth: 2, keyLength: 1, types: ['number', 'string', 'boolean', 'null', 'undefined'] }));
+		t.notOk(sane(foo, { keys: 7, depth: 1, keyLength: 1, types: ['number', 'string', 'boolean', 'null', 'undefined'] }));
+		t.notOk(sane(foo, { keys: 6, depth: 2, keyLength: 1, types: ['number', 'string', 'boolean', 'null', 'undefined'] }));
+		t.notOk(sane(foo, { keys: 7, depth: 2, keyLength: 0, types: ['number', 'string', 'boolean', 'null', 'undefined'] }));
+		t.notOk(sane(foo, { keys: 7, depth: 2, keyLength: 1, types: ['number', 'string', 'boolean', 'null'] }));
+		t.notOk(sane(foo, { keys: 6, depth: 1, keyLength: 0, types: ['number', 'string', 'boolean', 'null'] }));
 
 		t.end();
 	});
