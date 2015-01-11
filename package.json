@@ -1,7 +1,7 @@
 {
 	"name": "sane-object",
 	"version": "0.0.3",
-	"description": "Validates an object against a list of parameters (keys, depth)",
+	"description": "Validates an object against a list of parameters (keys, depth, keyLength, types)",
 	"repository": {
 		"type": "git",
 		"url": "git@github.com:srcagency/sane-object.git"
