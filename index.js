@@ -3,6 +3,9 @@
 module.exports = sane;
 
 function sane(obj, params){
+	if (params === undefined)
+		throw Error('Cant validate without parameters');
+
 	var jobs = [obj];
 	var rounds = 0;
 	var counts = {

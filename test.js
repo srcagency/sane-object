@@ -88,5 +88,15 @@ test('sane-object', function( t ){
 
 		t.end();
 	});
+
+	t.test('no params', function( t ){
+		t.ok(sane({ a: '' }, {}));
+
+		t.throws(function(){
+			sane({ a: '' });
+		});
+
+		t.end();
+	});
 });
 
